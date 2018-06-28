@@ -62,7 +62,7 @@ if (!Object.prototype.forEach) {
                     }  
     } else 
         {
-            console.log('error');
+            
             open.onsuccess = function() {
                     var db = open.result;
                     var tx = db.transaction("MyObjectStore", "readwrite");
@@ -93,7 +93,9 @@ if (!Object.prototype.forEach) {
             } 
         }
     }
-        
+    request.onerror = function () { 
+        alert("Cannot reach the server. API response not yet cached.");
+    }
     request.send();
     function convertAmount() {
         if (document.getElementById('txtAmount').value == ""){ 
@@ -121,7 +123,8 @@ if (!Object.prototype.forEach) {
                         const valu = data.results[inputQuery].val;
                         const convertedAmount=  parseFloat(valu) * parseFloat(document.getElementById('txtAmount').value)
                       
-                        document.getElementById('returnVal').value = convertedAmount;
+                       // document.getElementById('returnVal').value = convertedAmount;
+                        document.getElementById('returnVal').value =  `${document.getElementById('toCurrency').value} ${convertedAmount.toFixed(2)}`
                         var open = indexedDB.open("MyDatabase", 1);
                         open.onsuccess = function() {
                     
@@ -168,7 +171,8 @@ if (!Object.prototype.forEach) {
                     
                     resObj.onsuccess = function() {
                         const convertedAmount=  parseFloat(resObj.result.curr) * parseFloat(document.getElementById('txtAmount').value)                       
-                        document.getElementById('returnVal').value = convertedAmount;
+                      //  document.getElementById('returnVal').value = convertedAmount;
+                      document.getElementById('returnVal').value =  `${document.getElementById('toCurrency').value} ${convertedAmount.toFixed(2)}`
                     };
                     tx.oncomplete = function() {
                         db.close();
